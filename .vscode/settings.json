@@ -1,0 +1,28 @@
+{
+    "python.analysis.extraPaths": [
+        "~/Litex/litex",
+        "~/Litex/migen",
+        "~/Litex/liteeth",
+        "~/Litex/litespi",
+        "~/Litex/litei2c",
+        "~/Litex/litedram",
+        "~/Litex/litegpio",
+        "${workspaceFolder}/modules/*"
+    ],
+    "python.defaultInterpreterPath": "~/Litex/LITEX_VENV/bin/python",
+    "python.envFile": "~/Litex/LITEX_VENV",
+    "python.languageServer": "Pylance",
+    "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: LLVM, IndentWidth: 2, ColumnLimit: 120}",
+    "editor.formatOnSave": true,
+    "files.associations": {
+        "console.h": "c",
+        "uart.h": "c",
+        "csr.h": "c",
+        "stdint.h": "c",
+        "stdlib.h": "c",
+        "system.h": "c",
+        "stdio.h": "c",
+        "ssp.h": "c",
+        "cdefs.h": "c"
+    }
+}

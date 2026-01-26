@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/build/sp6_hw/software/include/**",
+                "${workspaceFolder}/build/sp6_hw/software/picolibc_src/newlib/**",
+                "${workspaceFolder}/build/sp6_hw/software/libc/*",
+                "${workspaceFolder}/modules/*",
+                "${workspaceFolder}/firmware/inc/*",
+                "~/Litex/litex/litex/soc/software/**",
+                "~/Litex/litex/litex/soc/cores/cpu/serv/"
+                // "/usr/riscv64-elf/include/**"
+            ],
+            "defines": [
+                ""
+            ],
+            // "compilerPath": "/usr/bin/riscv64-elf-gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 4
+}
