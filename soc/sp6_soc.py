@@ -55,7 +55,7 @@ class BaseSoC(SoCCore):
         )
         self.add_constant("FLASH_BOOT_ADDRESS", 0x200D0000)
         self.add_memory_region("spiflash_app", 0x200D0008, 0x10000, type="cached+linker")
-        self.add_memory_region("main_ram_app", 0x40000008, 0x10000, type="cached+linker")
+        self.add_memory_region("main_ram_app", 0x40000000, 0x10000, type="cached+linker")
 # SDR DDRAM --------------------------------------------------------------------------------
         self.ddrphy = s6ddrphy.S6QuarterRateDDRPHY(
             pads                = platform.request("ddram"),
@@ -73,12 +73,12 @@ class BaseSoC(SoCCore):
             module  = MT41J128M16(sys_clk_freq, "1:4"),
         )
 # UART PHY ----------------------------------------------------------------------
-        # uart_pads = platform.request("uart_pl")
-        # self.submodules.uart_phy = UARTPHY(
-        #     pads=uart_pads,
-        #     clk_freq=50e6,
-        #     baudrate=115200
-        # )
+        uart_pads = platform.request("uart_pl")
+        self.submodules.uart_phy = UARTPHY(
+            pads=uart_pads,
+            clk_freq=50e6,
+            baudrate=115200
+        )
 #adv7391 video encoder ----------------------------------------------------------
         # adv7391_rst_pin = platform.request("adv7391_rst")
         # self.submodules.adv7391 = ITU_RBT_656(adv7391_rst_pin)
@@ -94,6 +94,12 @@ class BaseSoC(SoCCore):
         # self.comb += self.video_pattern.source.connect(self.video_sync.sink)
         # # Connect SyncGen Source -> Hardware Pins
         # self.comb += video_pads.d.eq(self.video_sync.source.data)
+         # 3. Only trigger UART when we have a valid capture
+        self.submodules.uart_tx = UARTTX32Single(
+            uart_sink = self.uart_phy.sink,
+            word32 = 0x11223344,
+            # Add a trigger signal if your UARTTX32Single supports it
+        )
         
 
         

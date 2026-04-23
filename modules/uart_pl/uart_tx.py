@@ -78,66 +78,12 @@ class UARTTX32(Module):
             uart_sink.valid.eq(0)
         )
 
-        
-# class UARTTX32Single(Module):
-#     def __init__(self, uart_sink, word32):
-#         # 6 bytes → need 3 bits
-#         byte_idx = Signal(3)
-#         byte_reg = Signal(8)
-#         counter = Signal(32)
-
-#         # FSM
-#         self.submodules.fsm = fsm = FSM(reset_state="SEND")
-
-#         # SEND state
-#         fsm.act("SEND",
-#             uart_sink.valid.eq(1),
-#             uart_sink.data.eq(byte_reg),
-
-#             If(uart_sink.ready,
-#                 # update byte
-#                 If(byte_idx == 0,
-#                     NextValue(byte_reg, word32[0:8])
-#                 ).Elif(byte_idx == 1,
-#                     NextValue(byte_reg, word32[8:16])
-#                 ).Elif(byte_idx == 2,
-#                     NextValue(byte_reg, word32[16:24])
-#                 ).Elif(byte_idx == 3,
-#                     NextValue(byte_reg, word32[24:32])
-#                 ).Elif(byte_idx == 4,
-#                     NextValue(byte_reg, 0x0A)
-#                 ).Elif(byte_idx == 5,
-#                     NextValue(byte_reg, 0x0D)
-#                 ),
-
-#                 # update index
-#                 If(byte_idx == 5,
-#                     NextValue(byte_idx, 0),
-#                     NextState("DONE")
-#                 ).Else(
-#                     NextValue(byte_idx, byte_idx + 1)
-#                 )
-#             )
-#         )
-
-#         # DONE state: wait counter cycles before sending again
-#         fsm.act("DONE",
-#             uart_sink.valid.eq(0),
-#             If(counter == 10_000_000-1,
-#                 NextValue(counter, 0),
-#                 NextState("SEND")
-#             ).Else(
-#                 NextValue(counter, counter + 1)
-#             )
-#         )
-
 class UARTTX32Single(Module):
     def __init__(self, uart_sink, word32):
         # Ensure word32 is a Migen-slicable object (Signal or Constant)
         word32 = wrap(word32)
 
         byte_idx = Signal(3)
-        byte_reg = Signal(8)
         counter = Signal(32)
 
         self.is_done = Signal()
